@@ -1,4 +1,6 @@
 package Graphics;
 
-public class Window {
+import javax.swing.JFrame;
+
+public class Window extends JFrame {
 }
