@@ -1,18 +1,18 @@
 package Graphics;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class Window {
+public class Window extends JFrame{
+    private JPanel mainPanel;
+    private JPanel userPanel;
+    private JPanel cardPanel;
+    private JLabel scoreLabel;
+    private JLabel timeLabel;
+    private JButton restartButton;
 
-    private JFrame jframe;
+    public Window(){
+        super("Memory");
 
-    public Window(int width, int height){
-        jframe = new JFrame("Memory");
-        jframe.setPreferredSize(new Dimension(width, height));
-        jframe.pack();
-        jframe.setVisible(true);
-
-        jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 }

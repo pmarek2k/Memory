@@ -14,7 +14,7 @@ public class Game {
     int cardPairNumber;
     Set<Card> cardSet;
 
-    public Game(){
+    public Game(int width, int height){
         while(true){
             String userInput = JOptionPane.showInputDialog("How many card pairs would you like to have? <5-16>");
             if(userInput == null || userInput.isEmpty()){
@@ -32,23 +32,20 @@ public class Game {
             }
         }
         initializeCardSet();
-        window = new Window(800, 600);
+        window = new Window();
     }
 
     private void initializeCardSet(){
-        cardSet = new HashSet<Card>();
+        cardSet = new HashSet<>();
         boolean setContainsCard;
+        Random random = new Random();
         for(int i = 0; i < cardPairNumber; i++){
             setContainsCard = true;
             while(setContainsCard){
-                Random random = new Random();
                 CardColor color = CardColor.values()[Math.abs(random.nextInt()%4)];
                 CardValue value = CardValue.values()[Math.abs(random.nextInt()%13)];
                 Card card = new Card(color, value);
-                if(cardSet.contains(card)){
-                    setContainsCard = true;
-                }
-                else{
+                if(!cardSet.contains(card)){
                     setContainsCard = false;
                     cardSet.add(card);
                     System.out.println(card);
