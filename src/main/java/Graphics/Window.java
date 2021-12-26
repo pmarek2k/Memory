@@ -1,6 +1,6 @@
 package Graphics;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 
 public class Window {
@@ -12,5 +12,7 @@ public class Window {
         jframe.setPreferredSize(new Dimension(width, height));
         jframe.pack();
         jframe.setVisible(true);
+
+        jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }

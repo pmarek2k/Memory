@@ -24,4 +24,12 @@ public class Card {
     public int hashCode() {
         return Objects.hash(cardColor, cardValue);
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "cardColor=" + cardColor +
+                ", cardValue=" + cardValue +
+                '}';
+    }
 }
