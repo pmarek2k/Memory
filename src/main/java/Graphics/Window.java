@@ -4,8 +4,8 @@ import Card.Card;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 public class Window extends JFrame{
@@ -16,8 +16,8 @@ public class Window extends JFrame{
     private JLabel timeLabel;
     private JButton restartButton;
 
-    private final int rows = 8;
-    private int columns;
+    private int rows;
+    private int columns = 8;
 
     public Window(String title, Set<Card> cardSet){
         super(title);
@@ -25,30 +25,32 @@ public class Window extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.setVisible(true);
-        restartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: Restart the game
-            }
-        });
-
+        restartButton.addActionListener(e -> {
+                    //TODO: Implement reset button
+                    this.dispose();
+                    EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                });
         // Initialize cards
-        columns = (int) Math.ceil(cardSet.size() * 2 / (double) rows);
+        rows = (int) Math.ceil(cardSet.size() * 2 / (double) columns);
         cardPanel.setLayout(new GridLayout(rows, columns, 10, 10));
 
-        // TODO: Set cards randomly in grid
-        for(Card c : cardSet){
-            JButton button = new JButton("", ImageIconFactory.getIcon(c.getName() + ".png"));
-            button.setPreferredSize(new Dimension(100, 50));
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //TODO: Implement clicking on card
-                }
+        ArrayList<Card> cardArrayList = new ArrayList<Card>(cardSet.stream().toList());
+        cardArrayList.addAll(cardSet);
+        for(int i = 0; i < cardArrayList.size(); i++){
+            int index = Math.abs(new Random().nextInt()) % cardArrayList.size();
+            CardViewButton button = new CardViewButton("", ImageIconFactory.getIcon("REVERSE.png"), cardArrayList.get(index));
+            button.setPreferredSize(new Dimension(164, 233));
+            button.setBackground(new Color(255, 255, 255));
+            button.addActionListener(e -> {
+                button.reverseCard();
+                // TODO: don't let two or more cards get reversed
             });
             cardPanel.add(button);
         }
-
         this.pack();
     }
 }

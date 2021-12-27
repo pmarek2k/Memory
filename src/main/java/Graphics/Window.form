@@ -64,7 +64,7 @@
           </hspacer>
         </children>
       </grid>
-      <grid id="cd985" binding="cardPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+      <grid id="cd985" binding="cardPanel" layout-manager="FlowLayout" hgap="10" vgap="10" flow-align="1">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>

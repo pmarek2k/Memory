@@ -12,9 +12,8 @@ public class ImageIconFactory {
     public static ImageIcon getIcon(String iconName){
         ImageIcon result= iconMap.get(iconName);
         if(result == null){
-            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-            String path = "/assets/cards/white/" + iconName;
-            result = new ImageIcon(Objects.requireNonNull(classLoader.getResource(path)));
+            String path = "/cards/scaled/" + iconName;
+            result = new ImageIcon(ImageIconFactory.class.getResource(path));
             iconMap.put(iconName, result);
             return result;
         }
