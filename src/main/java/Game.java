@@ -14,7 +14,7 @@ public class Game {
     int cardPairNumber;
     Set<Card> cardSet;
 
-    public Game(int width, int height){
+    public Game(){
         while(true){
             String userInput = JOptionPane.showInputDialog("How many card pairs would you like to have? <5-16>");
             if(userInput == null || userInput.isEmpty()){
@@ -32,7 +32,7 @@ public class Game {
             }
         }
         initializeCardSet();
-        window = new Window();
+        window = new Window("Memory", cardSet);
     }
 
     private void initializeCardSet(){

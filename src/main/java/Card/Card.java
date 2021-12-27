@@ -32,4 +32,8 @@ public class Card {
                 ", cardValue=" + cardValue +
                 '}';
     }
+
+    public String getName(){
+        return cardColor.toString() + "_" + cardValue.toString();
+    }
 }
