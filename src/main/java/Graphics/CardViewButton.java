@@ -7,6 +7,7 @@ import javax.swing.*;
 public class CardViewButton extends JButton {
 
     private Card card;
+    private boolean showsValue = false;
 
     public Card getCard() {
         return card;
@@ -20,9 +21,15 @@ public class CardViewButton extends JButton {
     public void reverseCard(){
         if(this.getIcon().equals(ImageIconFactory.getIcon(card.getName() + ".png"))){
             this.setIcon(ImageIconFactory.getIcon("REVERSE.png"));
+            this.showsValue = false;
         }
         else{
             this.setIcon(ImageIconFactory.getIcon(card.getName() + ".png"));
+            this.showsValue = true;
         }
+    }
+
+    public boolean showsValue() {
+        return showsValue;
     }
 }
