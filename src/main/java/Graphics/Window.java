@@ -34,7 +34,7 @@ public class Window extends JFrame{
         public void actionPerformed(ActionEvent e) {
             for (int i = 0; i < cardViewButtons.size(); i++){
                 CardViewButton button = cardViewButtons.get(i);
-                if(button.showsValue()){
+                if(button.showsValue() && button.isEnabled()){
                     button.reverseCard();
                 }
             }
@@ -69,23 +69,45 @@ public class Window extends JFrame{
         ArrayList<Card> cardArrayList = new ArrayList<Card>(cardSet.stream().toList());
         cardArrayList.addAll(cardSet);
         cardViewButtons = new ArrayList<>();
-        for(int i = 0; i < cardArrayList.size(); i++){
+        int size = cardArrayList.size();
+        for(int i = 0; i < size; i++){
             int index = Math.abs(new Random().nextInt()) % cardArrayList.size();
             CardViewButton button = new CardViewButton("", ImageIconFactory.getIcon("REVERSE.png"), cardArrayList.get(index));
+            cardArrayList.remove(index);
             button.setPreferredSize(new Dimension(164, 233));
             button.setBackground(new Color(255, 255, 255));
             button.addActionListener(e -> {
                 // TODO: don't let two or more cards get reversed
                 button.reverseCard();
                 cardsReversed += 1;
+                boolean pairFound = false;
                 if(cardsReversed == 2){
-                    reverseTimer.start();
+                    for(int j = 0; j < cardViewButtons.size() - 1; j++){
+                        for(int k = j+1; k < cardViewButtons.size(); k++){
+                            CardViewButton button1 = cardViewButtons.get(j);
+                            CardViewButton button2 = cardViewButtons.get(k);
+                            if(button1.showsValue() && button2.showsValue()){
+                                if(button1.getCard().equals(button2.getCard()) && (button1.isEnabled() && button2.isEnabled())){
+                                    button1.setEnabled(false);
+                                    button2.setEnabled(false);
+                                    int currentScore = Integer.parseInt(scoreLabel.getText());
+                                    scoreLabel.setText(Integer.toString(currentScore + 2));
+                                    pairFound = true;
+                                    cardsReversed = 0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(!pairFound){
+                        reverseTimer.start();
+                    }
                 }
                 else if(cardsReversed > 2) {
                     reverseTimer.stop();
                     for (int j = 0; j < cardViewButtons.size(); j++){
                         CardViewButton cardButton = cardViewButtons.get(j);
-                        if(cardButton.showsValue()){
+                        if(cardButton.showsValue() && cardButton.isEnabled()){
                             cardButton.reverseCard();
                         }
                     }
@@ -97,6 +119,4 @@ public class Window extends JFrame{
         }
         this.pack();
     }
-
-
 }
