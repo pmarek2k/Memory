@@ -1,6 +1,8 @@
 package Graphics;
 
 import Card.Card;
+import utils.DatabaseConnection;
+import utils.GameResult;
 import utils.InputManager;
 
 import javax.swing.*;
@@ -78,40 +80,63 @@ public class Window extends JFrame{
             button.setBackground(new Color(255, 255, 255));
             button.addActionListener(e -> {
                 // TODO: don't let two or more cards get reversed
-                button.reverseCard();
-                cardsReversed += 1;
-                boolean pairFound = false;
-                if(cardsReversed == 2){
-                    for(int j = 0; j < cardViewButtons.size() - 1; j++){
-                        for(int k = j+1; k < cardViewButtons.size(); k++){
-                            CardViewButton button1 = cardViewButtons.get(j);
-                            CardViewButton button2 = cardViewButtons.get(k);
-                            if(button1.showsValue() && button2.showsValue()){
-                                if(button1.getCard().equals(button2.getCard()) && (button1.isEnabled() && button2.isEnabled())){
-                                    button1.setEnabled(false);
-                                    button2.setEnabled(false);
-                                    int currentScore = Integer.parseInt(scoreLabel.getText());
-                                    scoreLabel.setText(Integer.toString(currentScore + 2));
-                                    pairFound = true;
-                                    cardsReversed = 0;
-                                    break;
+                if(!button.showsValue()) {
+                    button.reverseCard();
+                    cardsReversed += 1;
+                    boolean pairFound = false;
+                    if (cardsReversed == 2) {
+                        for (int j = 0; j < cardViewButtons.size() - 1; j++) {
+                            for (int k = j + 1; k < cardViewButtons.size(); k++) {
+                                CardViewButton button1 = cardViewButtons.get(j);
+                                CardViewButton button2 = cardViewButtons.get(k);
+                                if (button1.showsValue() && button2.showsValue()) {
+                                    if (button1.getCard().equals(button2.getCard()) && (button1.isEnabled() && button2.isEnabled())) {
+                                        button1.setEnabled(false);
+                                        button2.setEnabled(false);
+                                        int currentScore = Integer.parseInt(scoreLabel.getText());
+                                        scoreLabel.setText(Integer.toString(currentScore + 2));
+                                        pairFound = true;
+                                        cardsReversed = 0;
+                                        //TODO: check if game has ended
+                                        if(cardViewButtons.stream().allMatch(cardViewButton -> cardViewButton.showsValue())){
+                                            dispose();
+                                            DatabaseConnection connection = new DatabaseConnection();
+                                            connection.createNewTable();
+                                            String nickname;
+                                            boolean nicknameExists = false;
+                                            while(true){
+                                                PlayerWonDialog dialog = new PlayerWonDialog();
+                                                dialog.setNicknameExistsLabelVisible(nicknameExists);
+                                                dialog.pack();
+                                                dialog.setVisible(true);
+                                                //TODO: check why it is null
+                                                nickname = dialog.getText();
+                                                if(!connection.hasNickname(nickname)){
+                                                    break;
+                                                }
+                                                nicknameExists = true;
+                                            }
+                                            connection.insertResult(new GameResult(nickname, Integer.parseInt(scoreLabel.getText())));
+                                            Leaderboards leaderBoards = new Leaderboards();
+                                        }
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-                    if(!pairFound){
-                        reverseTimer.start();
-                    }
-                }
-                else if(cardsReversed > 2) {
-                    reverseTimer.stop();
-                    for (int j = 0; j < cardViewButtons.size(); j++){
-                        CardViewButton cardButton = cardViewButtons.get(j);
-                        if(cardButton.showsValue() && cardButton.isEnabled()){
-                            cardButton.reverseCard();
+                        if (!pairFound) {
+                            reverseTimer.start();
                         }
+                    } else if (cardsReversed > 2) {
+                        reverseTimer.stop();
+                        for (int j = 0; j < cardViewButtons.size(); j++) {
+                            CardViewButton cardButton = cardViewButtons.get(j);
+                            if (cardButton.showsValue() && cardButton.isEnabled()) {
+                                cardButton.reverseCard();
+                            }
+                        }
+                        cardsReversed = 0;
                     }
-                    cardsReversed = 0;
                 }
             });
             cardViewButtons.add(button);
