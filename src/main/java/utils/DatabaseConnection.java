@@ -1,6 +1,7 @@
 package utils;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,22 +39,22 @@ public class DatabaseConnection {
         }
     }
 
-    public Set<GameResult> selectAllResults(){
-        String sql = "SELECT id, nickname, score FROM results";
-        Set<GameResult> resultSet = new HashSet<>();
+    public ArrayList<GameResult> selectAllResults(){
+        String sql = "SELECT id, nickname, score FROM results order by score desc";
+        ArrayList<GameResult> resultList = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(url);
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
 
             while (rs.next()) {
-                resultSet.add(new GameResult(rs.getString("nickname"),
+                resultList.add(new GameResult(rs.getString("nickname"),
                                              rs.getInt("score")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return resultSet;
+        return resultList;
     }
 
     public void insertResult(GameResult result){
@@ -70,20 +71,24 @@ public class DatabaseConnection {
     }
 
     public boolean hasNickname(String nickname){
-        String sql = "SELECT * from results where nickname = " + nickname;
+        String sql = "SELECT nickname, score from results where nickname = ?";
         Set<GameResult> resultSet = new HashSet<>();
 
         try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql)){
+        PreparedStatement pstmt  = conn.prepareStatement(sql)){
 
-            if(rs.next()){
+            // set the value
+            pstmt.setString(1, nickname);
+            //
+            ResultSet rs  = pstmt.executeQuery();
+
+            // loop through the result set
+            if (rs.next()) {
                 return true;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
         return false;
     }
 }

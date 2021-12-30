@@ -45,6 +45,7 @@ public class Window extends JFrame{
 
     public Window(String title, Set<Card> cardSet){
         super(title);
+        // TODO: Refactor code, implement game Timer
 
         reverseTimer = new Timer(1000, reverseButtonActionListener);
         reverseTimer.setRepeats(false);
@@ -79,7 +80,6 @@ public class Window extends JFrame{
             button.setPreferredSize(new Dimension(164, 233));
             button.setBackground(new Color(255, 255, 255));
             button.addActionListener(e -> {
-                // TODO: don't let two or more cards get reversed
                 if(!button.showsValue()) {
                     button.reverseCard();
                     cardsReversed += 1;
@@ -97,7 +97,7 @@ public class Window extends JFrame{
                                         scoreLabel.setText(Integer.toString(currentScore + 2));
                                         pairFound = true;
                                         cardsReversed = 0;
-                                        //TODO: check if game has ended
+                                        //check if game has ended
                                         if(cardViewButtons.stream().allMatch(cardViewButton -> cardViewButton.showsValue())){
                                             dispose();
                                             DatabaseConnection connection = new DatabaseConnection();
@@ -109,7 +109,6 @@ public class Window extends JFrame{
                                                 dialog.setNicknameExistsLabelVisible(nicknameExists);
                                                 dialog.pack();
                                                 dialog.setVisible(true);
-                                                //TODO: check why it is null
                                                 nickname = dialog.getText();
                                                 if(!connection.hasNickname(nickname)){
                                                     break;
