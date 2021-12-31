@@ -1,5 +1,7 @@
 package utils;
 
+import Graphics.PlayerWonDialog;
+
 import javax.swing.*;
 
 public class InputManager {
@@ -23,6 +25,25 @@ public class InputManager {
             }
         }
         return cardPairNumber;
+    }
+
+    public static String getPlayerNickname(){
+        DatabaseConnection connection = new DatabaseConnection();
+        connection.createNewTable();
+        String nickname;
+        boolean nicknameExists = false;
+        while (true) {
+            PlayerWonDialog dialog = new PlayerWonDialog();
+            dialog.setNicknameExistsLabelVisible(nicknameExists);
+            dialog.pack();
+            dialog.setVisible(true);
+            nickname = dialog.getText();
+            if (!connection.hasNickname(nickname)) {
+                break;
+            }
+            nicknameExists = true;
+        }
+        return nickname;
     }
 
 }

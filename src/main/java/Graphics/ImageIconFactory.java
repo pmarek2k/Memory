@@ -13,7 +13,7 @@ public class ImageIconFactory {
         ImageIcon result= iconMap.get(iconName);
         if(result == null){
             String path = "/cards/scaled/" + iconName;
-            result = new ImageIcon(ImageIconFactory.class.getResource(path));
+            result = new ImageIcon(Objects.requireNonNull(ImageIconFactory.class.getResource(path)));
             iconMap.put(iconName, result);
             return result;
         }

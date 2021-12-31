@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class CardViewButton extends JButton {
 
-    private Card card;
+    private final Card card;
     private boolean showsValue = false;
 
     public Card getCard() {
