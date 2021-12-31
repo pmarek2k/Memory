@@ -1,4 +1,4 @@
-package Card;
+package com.pmarek.memoryGame.Card;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" +
+        return "com.pmarek.memoryGame.Card{" +
                 "cardColor=" + cardColor +
                 ", cardValue=" + cardValue +
                 '}';

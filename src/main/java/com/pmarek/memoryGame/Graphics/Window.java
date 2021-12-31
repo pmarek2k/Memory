@@ -1,11 +1,11 @@
-package Graphics;
+package com.pmarek.memoryGame.Graphics;
 
-import Card.Card;
+import com.pmarek.memoryGame.Card.Card;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import utils.DatabaseConnection;
-import utils.GameResult;
-import utils.InputManager;
+import com.pmarek.memoryGame.utils.DatabaseConnection;
+import com.pmarek.memoryGame.utils.GameResult;
+import com.pmarek.memoryGame.utils.InputManager;
 
 import javax.swing.*;
 import java.awt.*;

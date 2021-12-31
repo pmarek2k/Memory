@@ -1,6 +1,6 @@
-package Graphics;
+package com.pmarek.memoryGame.Graphics;
 
-import Card.Card;
+import com.pmarek.memoryGame.Card.Card;
 
 import javax.swing.*;
 

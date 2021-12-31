@@ -1,6 +1,6 @@
-package utils;
+package com.pmarek.memoryGame.utils;
 
-import Graphics.PlayerWonDialog;
+import com.pmarek.memoryGame.Graphics.PlayerWonDialog;
 
 import javax.swing.*;
 

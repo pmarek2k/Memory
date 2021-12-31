@@ -1,4 +1,4 @@
-package Graphics;
+package com.pmarek.memoryGame.Graphics;
 
 import javax.swing.*;
 import java.util.HashMap;

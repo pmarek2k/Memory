@@ -1,4 +1,4 @@
-package utils;
+package com.pmarek.memoryGame.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +11,10 @@ public class DatabaseConnection {
     private static final String url = "jdbc:sqlite:results.db";
     private static Connection conn = null;
     private static final Logger logger = LogManager.getLogger(DatabaseConnection.class);
+
+    public static Connection getConn() {
+        return conn;
+    }
 
     public DatabaseConnection() {
         if (conn == null) {

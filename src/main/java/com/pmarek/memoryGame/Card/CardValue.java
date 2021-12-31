@@ -1,4 +1,4 @@
-package Card;
+package com.pmarek.memoryGame.Card;
 
 public enum CardValue {
     TWO,

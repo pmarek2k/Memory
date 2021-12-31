@@ -1,4 +1,4 @@
-package utils;
+package com.pmarek.memoryGame.utils;
 
 import java.util.Objects;
 

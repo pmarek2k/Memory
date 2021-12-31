@@ -1,9 +1,9 @@
-package Graphics;
+package com.pmarek.memoryGame.Graphics;
 
-import Card.Card;
-import utils.GameResult;
-import utils.InputManager;
-import utils.DatabaseConnection;
+import com.pmarek.memoryGame.Card.Card;
+import com.pmarek.memoryGame.utils.GameResult;
+import com.pmarek.memoryGame.utils.InputManager;
+import com.pmarek.memoryGame.utils.DatabaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
