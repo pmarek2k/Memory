@@ -1,12 +1,16 @@
 package utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseConnection {
 
-    private static final String url = "jdbc:sqlite:database";
+    private static final String url = "jdbc:sqlite:results.db";
     private static Connection conn = null;
+    private static final Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
     public DatabaseConnection() {
         if (conn == null) {
@@ -14,12 +18,12 @@ public class DatabaseConnection {
                 conn = DriverManager.getConnection(url);
                 if (conn != null) {
                     DatabaseMetaData meta = conn.getMetaData();
-                    System.out.println("The driver name is " + meta.getDriverName());
-                    System.out.println("A new database has been created.");
+                    logger.info("The driver name is " + meta.getDriverName());
+                    logger.info("A new database connection has been created.");
                 }
 
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             }
         }
     }
@@ -37,7 +41,7 @@ public class DatabaseConnection {
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
@@ -52,7 +56,7 @@ public class DatabaseConnection {
                         rs.getInt("score")));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return resultList;
     }
@@ -65,7 +69,7 @@ public class DatabaseConnection {
             preparedStatement.setInt(2, result.score());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
@@ -81,7 +85,7 @@ public class DatabaseConnection {
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return false;
     }

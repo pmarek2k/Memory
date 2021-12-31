@@ -32,4 +32,11 @@ public class CardViewButton extends JButton {
     public boolean showsValue() {
         return showsValue;
     }
+
+    @Override
+    public String toString() {
+        return "CardViewButton{" +
+                "card=" + card +
+                '}';
+    }
 }
