@@ -1,5 +1,8 @@
 package com.pmarek.memoryGame.Graphics;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import com.pmarek.memoryGame.Card.Card;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-public class Window extends JFrame {
+public class GameWindow extends JFrame {
     private JPanel mainPanel;
     private JPanel cardPanel;
     private JLabel scoreLabel;
@@ -25,9 +28,9 @@ public class Window extends JFrame {
 
     private ArrayList<CardViewButton> activeReversedCardButtons;
 
-    private static final Logger logger = LogManager.getLogger(Window.class);
+    private static final Logger logger = LogManager.getLogger(GameWindow.class);
 
-    public Window(String title, Set<Card> cardSet) {
+    public GameWindow(String title, Set<Card> cardSet) {
         super(title);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
@@ -42,6 +45,7 @@ public class Window extends JFrame {
         restartButton.addActionListener(e -> restartGame());
         setupUI(cardSet);
         this.pack();
+        this.setResizable(false);
         gameTimer.start();
     }
 
@@ -64,12 +68,12 @@ public class Window extends JFrame {
         EventQueue.invokeLater(() -> {
             int cardPairNumber = InputManager.getCardPairNumber();
             Set<Card> cardSet = Card.initializeCardSet(cardPairNumber);
-            new Window("Memory", cardSet);
+            new GameWindow("Memory", cardSet);
         });
     }
 
     private void checkIfGameHasEnded() {
-        if (cardViewButtons.stream().allMatch(cardViewButton -> cardViewButton.showsValue())) {
+        if (cardViewButtons.stream().allMatch(CardViewButton::showsValue)) {
             logger.info("Game has ended");
             dispose();
             EventQueue.invokeLater(() -> {
@@ -154,25 +158,25 @@ public class Window extends JFrame {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout(0, 0));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 6, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(1, 6, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel1, BorderLayout.SOUTH);
         final JLabel label1 = new JLabel();
         label1.setText("Score:");
-        panel1.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         scoreLabel = new JLabel();
         scoreLabel.setText("0");
-        panel1.add(scoreLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(scoreLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Time:");
-        panel1.add(label2, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(label2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         timeLabel = new JLabel();
         timeLabel.setText("0");
-        panel1.add(timeLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(timeLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         restartButton = new JButton();
         restartButton.setText("Restart");
-        panel1.add(restartButton, new com.intellij.uiDesigner.core.GridConstraints(0, 5, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
-        final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        panel1.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(0, 4, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, new Dimension(52, 11), null, 0, false));
+        panel1.add(restartButton, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, 30), null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel1.add(spacer1, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, new Dimension(52, 11), null, 0, false));
         cardPanel = new JPanel();
         cardPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         mainPanel.add(cardPanel, BorderLayout.CENTER);
@@ -184,4 +188,5 @@ public class Window extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }

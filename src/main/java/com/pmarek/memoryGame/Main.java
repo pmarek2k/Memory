@@ -1,7 +1,7 @@
 package com.pmarek.memoryGame;
 
 import com.pmarek.memoryGame.Card.Card;
-import com.pmarek.memoryGame.Graphics.Window;
+import com.pmarek.memoryGame.Graphics.GameWindow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.pmarek.memoryGame.utils.InputManager;
@@ -17,6 +17,6 @@ public class Main {
         logger.info("Initializing card Set");
         Set<Card> cardSet = Card.initializeCardSet(cardPairNumber);
         logger.info("Creating new window");
-        new Window("Memory", cardSet);
+        new GameWindow("Memory", cardSet);
     }
 }

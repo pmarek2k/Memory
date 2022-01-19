@@ -3,12 +3,14 @@ package com.pmarek.memoryGame.utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseConnection {
 
-    private static final String url = "jdbc:sqlite:results.db";
+    private static final String ApplicationDataFolder = System.getenv("APPDATA");
+    private static final String url = "jdbc:sqlite:" + ApplicationDataFolder;
     private static Connection conn = null;
     private static final Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
@@ -18,8 +20,14 @@ public class DatabaseConnection {
 
     public DatabaseConnection() {
         if (conn == null) {
+            File directory = new File(ApplicationDataFolder + "\\Memory");
+            if(!directory.exists()){
+                if(!directory.mkdir()){
+                    logger.error("Failed to create game data directory");
+                }
+            }
             try {
-                conn = DriverManager.getConnection(url);
+                conn = DriverManager.getConnection(url + "\\Memory\\data.db");
                 if (conn != null) {
                     DatabaseMetaData meta = conn.getMetaData();
                     logger.info("The driver name is " + meta.getDriverName());
