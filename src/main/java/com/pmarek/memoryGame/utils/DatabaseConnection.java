@@ -14,8 +14,8 @@ public class DatabaseConnection {
     private static Connection conn = null;
     private static final Logger logger = LogManager.getLogger(DatabaseConnection.class);
 
-    public static Connection getConn() {
-        return conn;
+    public boolean isConnectionEstabilished(){
+        return conn!= null;
     }
 
     public DatabaseConnection() {
